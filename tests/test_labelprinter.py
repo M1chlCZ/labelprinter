@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 import urllib.error
 import urllib.request
@@ -104,10 +105,15 @@ class LabelTests(unittest.TestCase):
             thread.start()
             try:
                 with socket.create_connection(server.server_address, timeout=2):
-                    context = ssl.create_default_context(cafile=str(cert))
-                    with self.assertRaises(urllib.error.HTTPError) as response:
-                        urllib.request.urlopen('https://127.0.0.1:%d/' % server.server_port, context=context, timeout=2)
-                    self.assertEqual(response.exception.code, 501)
+                    time.sleep(0.3)
+                # The stalled connection was dropped by the timeout; give the
+                # next client a realistic handshake budget so the assertion
+                # does not race the timeout on a loaded machine.
+                server.handshake_timeout = 5
+                context = ssl.create_default_context(cafile=str(cert))
+                with self.assertRaises(urllib.error.HTTPError) as response:
+                    urllib.request.urlopen('https://127.0.0.1:%d/' % server.server_port, context=context, timeout=2)
+                self.assertEqual(response.exception.code, 501)
             finally:
                 server.shutdown()
                 server.server_close()
