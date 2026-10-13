@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "labelprinter"
+version = "0.1.0"
+description = "Authenticated idempotent label printing bridge: TLS PDF in, CUPS queue out."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = ["pypdf>=5"]
+
+[project.scripts]
+labelprinter = "labelprinter:main"
+
+[tool.setuptools]
+py-modules = ["labelprinter"]

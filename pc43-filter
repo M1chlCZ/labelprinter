@@ -1,0 +1,22 @@
+#!/bin/bash
+# Fixed PC43t 300 dpi / 100x150 mm Direct Protocol raster filter.
+set -euo pipefail
+umask 077
+job_tmp=$(mktemp -d)
+trap 'rm -rf "$job_tmp"' EXIT
+here=$(cd -- "$(dirname -- "$0")" && pwd)
+if [[ $# -ge 6 ]]; then cp -- "$6" "$job_tmp/input.pdf"; else cat > "$job_tmp/input.pdf"; fi
+export LC_ALL=C
+pdfinfo "$job_tmp/input.pdf" > "$job_tmp/info"
+grep -Eq "^Pages:[[:space:]]+1$" "$job_tmp/info"
+# Fail before emitting any printer command if the document cannot be rendered.
+# PRBUF renders at y+1. Reserve that dot inside the 1772-dot print window;
+# keep the aspect ratio so the complete PDF fits without clipping its edge.
+pdftoppm -f 1 -l 1 -singlefile -r 300 -scale-to-x -1 -scale-to-y 1771 -gray "$job_tmp/input.pdf" "$job_tmp/page"
+pgmtopbm -threshold -value 0.5 "$job_tmp/page.pgm" > "$job_tmp/page.pbm"
+pnmtoplainpnm "$job_tmp/page.pbm" > "$job_tmp/plain.pbm"
+"$here/pbmtodp" < "$job_tmp/plain.pbm" > "$job_tmp/page.dp"
+size=$(wc -c < "$job_tmp/page.dp")
+printf 'INPUT ON\nSETUP "MEDIA,PAPER TYPE,DIRECT THERMAL"\nSETUP "MEDIA,MEDIA TYPE,LABEL (w GAPS)"\nSETUP "MEDIA,MEDIA SIZE,XSTART,0"\nSETUP "MEDIA,MEDIA SIZE,WIDTH,1182"\nSETUP "MEDIA,MEDIA SIZE,LENGTH,1772"\nCLL\nCLIP OFF\nPP 0,0\nPRBUF %s\n' "$size"
+cat "$job_tmp/page.dp"
+printf '\nPF 1\n'

@@ -1,0 +1,10 @@
+# Label printer bridge settings (LABEL_*). Uncomment to override a default.
+# LABEL_LISTEN=127.0.0.1
+# LABEL_PORT=8631
+# LABEL_QUEUE=PC43t
+# LABEL_MEDIA=Label100x150
+# LABEL_JOB_PREFIX=labelprinter-
+# LABEL_TOKEN_FILE=/etc/labelprinter/token
+# LABEL_CERT_FILE=/etc/labelprinter/server.crt
+# LABEL_KEY_FILE=/etc/labelprinter/server.key
+# LABEL_STATE_DIR=/var/lib/labelprinter

@@ -1,0 +1,32 @@
+*PPD-Adobe: "4.3"
+*FormatVersion: "4.3"
+*FileVersion: "1.0"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PCFileName: "PC43T.PPD"
+*Manufacturer: "Honeywell"
+*Product: "(PC43t)"
+*ModelName: "Honeywell PC43t 300dpi 100x150"
+*ShortNickName: "PC43t 100x150"
+*NickName: "Honeywell PC43t 300dpi Direct Thermal 100x150"
+*PSVersion: "(3010.000) 0"
+*LanguageLevel: "3"
+*ColorDevice: False
+*DefaultColorSpace: Gray
+*FileSystem: False
+*Throughput: "10"
+*cupsVersion: 2.0
+*cupsManualCopies: True
+*cupsFilter: "application/vnd.cups-pdf 0 /usr/local/lib/labelprinter/pc43-filter"
+*OpenUI *PageSize/Label size: PickOne
+*DefaultPageSize: Label100x150
+*PageSize Label100x150/100 x 150 mm: "<</PageSize[283.464567 425.196850]>>setpagedevice"
+*CloseUI: *PageSize
+*DefaultPageRegion: Label100x150
+*PageRegion Label100x150/100 x 150 mm: "<</PageSize[283.464567 425.196850]>>setpagedevice"
+*DefaultImageableArea: Label100x150
+*ImageableArea Label100x150: "0 0 283.464567 425.196850"
+*DefaultPaperDimension: Label100x150
+*PaperDimension Label100x150: "283.464567 425.196850"
+*DefaultResolution: 300dpi
+*Resolution 300dpi: "<</HWResolution[300 300]>>setpagedevice"
